@@ -4,12 +4,16 @@
     <div class="row">
         <h1 style="text-align: center;">Create a new Product to sell</h1>
         <div style="width: 30%; margin: 25px auto;">
-            <form action="/machines" method="POST">
+            <form action="/machines" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input class="form-control" type="text" name="brand" placeholder="Brand">
+                    State: 
+                    <select name="state">
+                        <option value="new">New</option>
+                        <option value="secondhand">Secondhand</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="image" placeholder="Image url">
+                    <input class="form-control" type="text" name="brand" placeholder="Brand">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" name="model" placeholder="Model">
@@ -18,10 +22,22 @@
                     <input class="form-control" type="text" name="location" placeholder="Store">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="price" placeholder="Price">
+                    <input class="form-control" type="number" min="1" name="purchase_price" placeholder="Purchase Price">
                 </div>
                 <div class="form-group">
-                    <p>Date: <input class="form-control" type="date" name="date" placeholder="Date of upload"></p>
+                    Purchase_receipt: <input class="form-control" type="file" name="purchase_receipt">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" min="1" type="number" name="quantity" placeholder="Quantity">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="seller" placeholder="Seller">
+                </div>
+                <div class="form-group">
+                    Sale Date: <input class="form-control" type="date" name="sale_date" placeholder="Sale Date">
+                </div>
+                <div class="form-group">
+                    Image: <input class="form-control" type="file" name="image">
                 </div>
                 <div class="form-group">
                     <button class="btn btn-lg btn-primary btn-block">Submit!</button>
