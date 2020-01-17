@@ -118,9 +118,9 @@ app.post("/machines", upload.fields([{name: 'image', maxCount: 1},{name: 'purcha
     });
 });
 
-//download the pdf Report
-app.get('/machines/generatePdf', (req, res)=>{
-    //initialize a pdf document
+//GENERATE PDF METHOD AS A PROMISE
+function generatePDF(){
+//initialize a pdf document
     var doc = new pdfDocument();
     //save the pdf file in a root directory
     doc.pipe(fs.createWriteStream('./uploads/pdfs/report.pdf'));
@@ -134,15 +134,29 @@ app.get('/machines/generatePdf', (req, res)=>{
         machines.forEach(machine => {
             //add margins to the document
             doc.image(machine.image, {
-                fit: [250, 300],
-                align: 'center',
-                valign: 'center'
+                fit: [500, 200],
+                align: 'center'
             });
-            doc.addPage({margin: 50});
+            doc.text("BRAND: "+machine.brand);
+            doc.text("MODEL: "+machine.model);
+            doc.text("STORE: "+machine.location);
+            doc.text("PURCHASE PRICE: "+machine.purchase_price);
+            doc.text("CREATION DATE: "+machine.creation_date.getDate()+"/"+machine.creation_date.getMonth()+1+"/"+machine.creation_date.getFullYear());
+            doc.text("SELLER: "+machine.seller);
+            doc.text("QUANTITY: "+machine.quantity);
+            doc.text("STATE: "+machine.state);
+            doc.fillColor('blue').text("PURCHASE RECEIPT",{link: 'http://localhost:3002/'+machine.purchase_receipt, underline: true, continued: true});
+            doc.addPage({margin: 50}).text("Last month inventory Report", {align: 'center'});
         });
         //Finalize PDF file
         doc.end();
-    }).then(res.redirect('/uploads/pdfs/report.pdf'), ()=>{console.log("something went wrong!")});
+    });
+};
+
+//open the pdf Report
+app.get('/machines/generatePdf', (req, res)=>{
+    generatePDF();
+    res.redirect('/uploads/pdfs/report.pdf');
 });
 
 //NEW-- SHOW FORM TO CREATE A NEW MACHINE
