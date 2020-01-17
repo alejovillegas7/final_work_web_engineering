@@ -1,0 +1,32 @@
+<%- include("partials/header") %>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome to the machine store</h1>
+            <p>View our most important products to make some confection stuff</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="/machines/new">Add New Product to Inventory</a>
+                <a class="btn btn-success btn-lg" href="/machines/generatePdf" target="_blank">Generate Report</a>
+                <a class="btn btn-info btn-lg" href="/machines/new">Send Report to the Administrator</a>
+            </p>
+        </div>
+    </header>
+
+    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+        <% machines.forEach(machine => { %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src="<%= machine.image %>">
+                    <div class="caption">
+                        <h4><%= machine.brand %></h4>
+                        <h4>Price: <%= machine.purchase_price %> $</h4>
+                        <h4><a target="_blank" href="<%= machine.purchase_receipt %>">Receipt</a></h4>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<%- include("partials/footer") %>

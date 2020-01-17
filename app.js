@@ -3,6 +3,9 @@ var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var multer = require("multer");
+var pdfDocument = require('pdfkit');
+var fs = require('fs');
+
 var storage = multer.diskStorage({
     destination: (req, file, callBack)=>{
         callBack(null, './uploads/');
@@ -87,7 +90,6 @@ app.get("/machines", (req, res)=>{
 //CREATE ROUTE OR THE INVENTORY--ADD NEW MACHINE
 app.post("/machines", upload.fields([{name: 'image', maxCount: 1},{name: 'purchase_receipt', maxCount: 1}]),(req, res)=>{
     //get data from form and add to machines array
-    console.log(req.files.purchase_receipt[0]);
     var today = new Date();
     var brand = req.body.brand;
     var state = req.body.state;
@@ -116,6 +118,33 @@ app.post("/machines", upload.fields([{name: 'image', maxCount: 1},{name: 'purcha
     });
 });
 
+//download the pdf Report
+app.get('/machines/generatePdf', (req, res)=>{
+    //initialize a pdf document
+    var doc = new pdfDocument();
+    //save the pdf file in a root directory
+    doc.pipe(fs.createWriteStream('./uploads/pdfs/report.pdf'));
+    //get all the machines from db in the last month
+    var date = new Date();
+    date.setMonth(date.getMonth() - 1);
+    Machine.find({creation_date: {$gte:date}},(err, machines)=>{
+        //setting a title for the pdf
+        doc.text("Last month inventory Report", {align: 'center'});
+        //add the information of the machines
+        machines.forEach(machine => {
+            //add margins to the document
+            doc.image(machine.image, {
+                fit: [250, 300],
+                align: 'center',
+                valign: 'center'
+            });
+            doc.addPage({margin: 50});
+        });
+        //Finalize PDF file
+        doc.end();
+    }).then(res.redirect('/uploads/pdfs/report.pdf'), ()=>{console.log("something went wrong!")});
+});
+
 //NEW-- SHOW FORM TO CREATE A NEW MACHINE
 app.get("/machines/new", (req, res)=>{
     res.render("new");
@@ -123,4 +152,4 @@ app.get("/machines/new", (req, res)=>{
 
 app.listen(3002, ()=>{
     console.log("confection machines server runnin at port 3002");
-})
+});
