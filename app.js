@@ -53,26 +53,11 @@ var machineSchema = new mongoose.Schema({
 
 var Machine = mongoose.model("Machine", machineSchema);
 
-// Machine.create({brand: "marca", 
-//                 image: "https://5.imimg.com/data5/KJ/BP/MY-48534858/merritt-popular-sewing-machine-500x500.jpg", 
-//                 model: "modelo", 
-//                 location: "punto de venta central", 
-//                 price: "5000", 
-//                 date: "05/08/1995", 
-//                 sale_date: "05/08/1995", 
-//                 seller: "Alejandro"},(err, product)=>{
-//                     if(err){
-//                         console.log(err);
-//                     }else{
-//                         console.log("newly created prodcut: ");
-//                         console.log(product);
-//                     }
-//                 });
-                
-
 app.get("/", (req, res)=>{
     res.render("landing");
 });
+
+//---------------------INVENTORY--------------------------------------
 
 //INDEX ROUTE FOR THE INVENTORY
 app.get("/machines", (req, res)=>{
@@ -82,7 +67,7 @@ app.get("/machines", (req, res)=>{
             console.log(err);
         }else{
             //render all the machines in the template
-            res.render("machines", {machines:machines})
+            res.render("index", {machines:machines})
         }
     });
 });
@@ -111,8 +96,6 @@ app.post("/machines", upload.fields([{name: 'image', maxCount: 1},{name: 'purcha
             console.log(err);
         }else{
             //redirect back to machines page
-            console.log(typeof machine.creation_date);
-            console.log(typeof creation_date);
             res.redirect("/machines");
         }
     });
@@ -145,7 +128,7 @@ function generatePDF(){
             doc.text("SELLER: "+machine.seller);
             doc.text("QUANTITY: "+machine.quantity);
             doc.text("STATE: "+machine.state);
-            doc.fillColor('blue').text("PURCHASE RECEIPT",{link: 'http://localhost:3002/'+machine.purchase_receipt, underline: true, continued: true});
+            doc.fillColor('blue').text("PURCHASE RECEIPT",{link: '/'+machine.purchase_receipt, underline: true, continued: true});
             doc.addPage({margin: 50}).text("Last month inventory Report", {align: 'center'});
         });
         //Finalize PDF file
@@ -162,6 +145,20 @@ app.get('/machines/generatePdf', (req, res)=>{
 //NEW-- SHOW FORM TO CREATE A NEW MACHINE
 app.get("/machines/new", (req, res)=>{
     res.render("new");
+});
+
+//SWOW-- SHOWS MORE INFO ABOUT A MACHINE
+app.get("/machines/:id", (req, res)=>{
+    //find the machine with provided ID
+    Machine.findById(req.params.id, (err, foundMachine)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            //render the show template
+            res.render("show_machine", {machine:foundMachine});
+        }
+    });
 });
 
 app.listen(3002, ()=>{

@@ -7,7 +7,7 @@
             <p>View our most important products to make some confection stuff</p>
             <p>
                 <a class="btn btn-primary btn-lg" href="/machines/new">Add New Product to Inventory</a>
-                <a class="btn btn-success btn-lg" href="/machines/generatePdf" target="_blank">Generate Report</a>
+                <a class="btn btn-warning btn-lg" href="/machines/generatePdf" target="_blank">Generate Report</a>
                 <a class="btn btn-info btn-lg" href="/machines/new">Send Report to the Administrator</a>
             </p>
         </div>
@@ -23,6 +23,9 @@
                         <h4>Price: <%= machine.purchase_price %> $</h4>
                         <h4><a target="_blank" href="<%= machine.purchase_receipt %>">Receipt</a></h4>
                     </div>
+                    <p>
+                        <a class="btn btn-success" href="/machines/<%= machine._id %>">More Info</a>
+                    </p>
                 </div>
             </div>
         <% }); %>
