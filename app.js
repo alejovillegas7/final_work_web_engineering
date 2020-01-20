@@ -6,6 +6,9 @@ var multer = require("multer");
 var pdfDocument = require('pdfkit');
 var fs = require('fs');
 
+var Machine = require("./models/machine");
+var Sale = require("./models/sale");
+
 var storage = multer.diskStorage({
     destination: (req, file, callBack)=>{
         callBack(null, './uploads/');
@@ -32,26 +35,9 @@ var upload = multer({
 mongoose.connect("mongodb://localhost/confection_machines_store", { useUnifiedTopology: true, useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 app.use('/uploads',express.static('uploads'));
 
-//SCHEMAS SETUP
-
-var machineSchema = new mongoose.Schema({
-    brand: String,
-    model: String,
-    location: String,
-    purchase_price: Number,
-    purchase_receipt: String,
-    creation_date: {type: Date, default: Date.now()},
-    sale_date: {type: Date, default: Date.now()},
-    seller: String,
-    quantity: Number,
-    image: String,
-    state: String
-});
-
-
-var Machine = mongoose.model("Machine", machineSchema);
 
 app.get("/", (req, res)=>{
     res.render("landing");
@@ -124,11 +110,12 @@ function generatePDF(){
             doc.text("MODEL: "+machine.model);
             doc.text("STORE: "+machine.location);
             doc.text("PURCHASE PRICE: "+machine.purchase_price);
-            doc.text("CREATION DATE: "+machine.creation_date.getDate()+"/"+machine.creation_date.getMonth()+1+"/"+machine.creation_date.getFullYear());
+            doc.text("CREATION DATE: "+machine.creation_date.toDateString());
             doc.text("SELLER: "+machine.seller);
             doc.text("QUANTITY: "+machine.quantity);
             doc.text("STATE: "+machine.state);
-            doc.fillColor('blue').text("PURCHASE RECEIPT",{link: '/'+machine.purchase_receipt, underline: true, continued: true});
+            doc.fillColor('blue').text("PURCHASE RECEIPT",{link: '/'+machine.purchase_receipt, underline: true, continued: false});
+            doc.moveDown();
             doc.addPage({margin: 50}).text("Last month inventory Report", {align: 'center'});
         });
         //Finalize PDF file

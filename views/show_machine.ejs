@@ -1,11 +1,35 @@
 <%- include("partials/header") %>
-<h1>THIS WILL BE THE SHOW PAGE SOON!!</h1>
-
-
-<p><%= machine.brand %></p>
-
-<img src="../<%= machine.image %>">
-
-<p><%= machine.location %></p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Machine Store</p>
+            <div class="list-group">
+                <li class="list-group-item"><strong>Brand: </strong><%= machine.brand %></li>
+                <li class="list-group-item"><strong>State: </strong><%= machine.state %></li>
+                <li class="list-group-item"><strong>Store Location: </strong><%= machine.location %></li>
+                <li class="list-group-item"><strong>Model: </strong><%= machine.model %></li>
+                <li class="list-group-item"><strong>Creation Date: </strong><%= machine.creation_date.toDateString() %></li>
+                <li class="list-group-item"><strong>Purchase Date: </strong><%= machine.sale_date.toDateString() %></li>
+                <li class="list-group-item"><strong>Quantity Available: </strong><%= machine.quantity %></li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="../<%= machine.image %>">
+                <div class="caption-full">
+                    <h4 class="pull-right">Purchase Price: $<%= machine.purchase_price %></h4>
+                    <h4><a target="_blank" href="<%= machine.purchase_receipt %>">Purchase Receipt</a></h4>
+                    <p><strong>Seller: </strong><%= machine.seller %></p>
+                </div>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-primary btn-lg" href="/machines">Go back to the inventory</a>
+                    <a class="btn btn-warning btn-lg" href="/<%= machine._id %>">Register a Sale</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%- include("partials/footer") %>
