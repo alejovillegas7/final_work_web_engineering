@@ -1,11 +1,14 @@
 var mongoose = require("mongoose");
+var passportLocalMongoose = require("passport-local-mongoose");
 
 var userSchema = mongoose.Schema({
+    username: String,
     name: String,
-    secondName: String,
     age: Number,
-    contract: {charge: String, salary: Number, start_date: Date, due_date: Date},
+    email: String,
+    contract: {charge: String, salary: Number, start_date: Date, due_date: Date, workplace: String},
     user_image: String,
+    password: String,
     sales: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -14,4 +17,6 @@ var userSchema = mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model("Sale", saleSchema);
+userSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model("User", userSchema);

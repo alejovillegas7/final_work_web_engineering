@@ -2,12 +2,15 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var passport = require("passport");
+var LocalStrategy = require("passport-local");
 var multer = require("multer");
 var pdfDocument = require('pdfkit');
 var fs = require('fs');
 
 var Machine = require("./models/machine");
 var Sale = require("./models/sale");
+var User = require("./models/user");
 
 var storage = multer.diskStorage({
     destination: (req, file, callBack)=>{
@@ -38,6 +41,25 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use('/uploads',express.static('uploads'));
 
+//PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "we are the best group in the class",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next)=>{
+    res.locals.currentUser = req.user;
+    next();
+});
+
+//ROUTES
 
 app.get("/", (req, res)=>{
     res.render("landing");
@@ -53,13 +75,13 @@ app.get("/machines", (req, res)=>{
             console.log(err);
         }else{
             //render all the machines in the template
-            res.render("index", {machines:machines})
+            res.render("inventory/index", {machines:machines})
         }
     });
 });
 
 //CREATE ROUTE OR THE INVENTORY--ADD NEW MACHINE
-app.post("/machines", upload.fields([{name: 'image', maxCount: 1},{name: 'purchase_receipt', maxCount: 1}]),(req, res)=>{
+app.post("/machines", isLoggedIn, upload.fields([{name: 'image', maxCount: 1},{name: 'purchase_receipt', maxCount: 1}]),(req, res)=>{
     //get data from form and add to machines array
     var today = new Date();
     var brand = req.body.brand;
@@ -124,18 +146,18 @@ function generatePDF(){
 };
 
 //open the pdf Report
-app.get('/machines/generatePdf', (req, res)=>{
+app.get('/machines/generatePdf', isLoggedIn, (req, res)=>{
     generatePDF();
     res.redirect('/uploads/pdfs/report.pdf');
 });
 
 //NEW-- SHOW FORM TO CREATE A NEW MACHINE
-app.get("/machines/new", (req, res)=>{
-    res.render("new");
+app.get("/machines/new", isLoggedIn, (req, res)=>{
+    res.render("inventory/new");
 });
 
 //SWOW-- SHOWS MORE INFO ABOUT A MACHINE
-app.get("/machines/:id", (req, res)=>{
+app.get("/machines/:id", isLoggedIn, (req, res)=>{
     //find the machine with provided ID
     Machine.findById(req.params.id, (err, foundMachine)=>{
         if(err){
@@ -143,10 +165,68 @@ app.get("/machines/:id", (req, res)=>{
         }
         else{
             //render the show template
-            res.render("show_machine", {machine:foundMachine});
+            res.render("inventory/show_machine", {machine:foundMachine});
         }
     });
 });
+
+//===========
+//AUTH ROUTES
+//===========
+
+//show the register form
+app.get("/register", (req, res)=>{
+    res.render("register");
+});
+
+//handle sign up logic!
+app.post("/register",upload.single('user_image'), (req, res)=>{
+    var newUser = new User({
+        username: req.body.username,
+        name: req.body.name,
+        age: req.body.age,
+        email: req.body.email,
+        contract: {charge: req.body.charge, 
+                   salary: req.body.salary, 
+                   start_date: req.body.start_date, 
+                   due_date: req.body.due_date, 
+                   workplace: req.body.workplace},
+        user_image: req.file.path
+    });
+    User.register(newUser, req.body.password, (err, user)=>{
+        if(err){
+            console.log(err);
+            return res.render("register");
+        }
+        passport.authenticate("local")(req, res, ()=>{
+            res.redirect("/machines");
+            console.log(req.file);
+        });
+    });
+});
+
+//show login form
+app.get("/login", (req, res)=>{
+    res.render("login");
+});
+
+//handling login logic
+app.post("/login", passport.authenticate("local", {successRedirect: "/machines", failureRedirect: "/login"}), (req, res)=>{
+    res.send("login logic happens here!");
+});
+
+//logout route
+app.get("/logout", (req, res)=>{
+    req.logout();
+    res.redirect("/machines");
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(3002, ()=>{
     console.log("confection machines server runnin at port 3002");

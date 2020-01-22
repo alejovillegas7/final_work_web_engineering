@@ -15,12 +15,16 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Login</a></li>
-                    <li><a href="/">Sign Up</a></li>
-                    <li><a href="/">Logout</a></li>
-                    <li><a href="/">Sales</a></li>
-                    <li><a href="/machines/new">Purchases</a></li>
-                    <li><a href="/">Human Resources</a></li>
+                    <% if(!currentUser){ %>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Sign Up</a></li>
+                    <% } else { %>
+                        <li><a href="/">Sales</a></li>
+                        <li><a href="/machines/new">Register a new Purchase</a></li>
+                        <li><a href="/">Human Resources</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="#">Signed in as: <%=currentUser.name%></a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>
