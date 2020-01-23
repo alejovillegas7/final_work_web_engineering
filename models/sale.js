@@ -3,7 +3,13 @@ var mongoose = require("mongoose");
 var saleSchema = mongoose.Schema({
     product: String,
     buyer: String,
-    seller: String,
+    seller: {
+        id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User"
+            },
+        seller_name: String
+        },
     price: Number,
     date: Date
 });

@@ -9,6 +9,8 @@ var userSchema = mongoose.Schema({
     contract: {charge: String, salary: Number, start_date: Date, due_date: Date, workplace: String},
     user_image: String,
     password: String,
+    provider: String,
+    provider_id: {type: String, unique: true},
     sales: [
         {
             type: mongoose.Schema.Types.ObjectId,
