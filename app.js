@@ -4,8 +4,8 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
-var TwitterStrategy = require("passport-twitter");
-var FacebookStrategy = require("passport-facebook");
+//var TwitterStrategy = require("passport-twitter");
+//var FacebookStrategy = require("passport-facebook");
 var multer = require("multer");
 var pdfDocument = require('pdfkit');
 var fs = require('fs');
@@ -16,6 +16,7 @@ var User = require("./models/user");
 //var Config = require("./config");
 var machineRoutes = require("./routes/machines");
 var authRoutes = require("./routes/auth");
+var userRoutes = require("./routes/user");
 
 mongoose.connect("mongodb://localhost/confection_machines_store", { useUnifiedTopology: true, useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
@@ -43,6 +44,7 @@ app.use((req, res, next)=>{
 
 app.use(machineRoutes);
 app.use(authRoutes);
+app.use(userRoutes);
 
 app.listen(3002, ()=>{
     console.log("confection machines server runnin at port 3002");

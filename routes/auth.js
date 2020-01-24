@@ -64,7 +64,6 @@ router.post("/register",upload.single('user_image'), (req, res)=>{
         }
         passport.authenticate("local")(req, res, ()=>{
             res.redirect("/machines");
-            console.log(req.file);
         });
     });
 });

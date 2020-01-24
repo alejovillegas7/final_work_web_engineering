@@ -21,9 +21,13 @@
                     <% } else { %>
                         <li><a href="/">Sales</a></li>
                         <li><a href="/machines/new">Register a new Purchase</a></li>
-                        <li><a href="/">Human Resources</a></li>
+                        <li><a href="/users">Human Resources</a></li>
                         <li><a href="/logout">Logout</a></li>
-                        <li><a href="#">Signed in as: <%=currentUser.name%></a></li>
+                        <li>
+                            <a href="/users/<%=currentUser._id%>">
+                                Signed in as: <%=currentUser.name%>
+                            </a>
+                        </li>
                     <% } %>
                 </ul>
             </div>

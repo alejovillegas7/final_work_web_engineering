@@ -1,0 +1,27 @@
+<%- include("../partials/header") %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <p class="lead"><strong>Welcome to your profile: </strong><%=user.username%></p>
+            <div class="list-group">
+                <li class="list-group-item"><strong>Name: </strong><%= user.name %></li>
+                <li class="list-group-item"><strong>Age: </strong><%= user.age %></li>
+                <li class="list-group-item"><strong>Charge: </strong><%= user.contract.charge %></li>
+                <li class="list-group-item"><strong>Workplace: </strong><%= user.contract.workplace %></li>
+                <li class="list-group-item"><strong>E-mail: </strong><%= user.email %></li>
+                <li class="list-group-item"><strong>Salary: </strong><%= user.contract.salary %></li>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="thumbnail">
+                <img class="img-responsive" src="../<%= user.user_image %>">
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-warning btn-lg" href="/machines">Edit profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include("../partials/footer") %>

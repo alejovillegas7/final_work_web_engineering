@@ -1,0 +1,34 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Human Resources</h1>
+            <p>Confection machines employees</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="/register">Add New Employee</a>
+            </p>
+        </div>
+    </header>
+
+    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+        <% users.forEach(user => { %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src="<%= user.user_image %>">
+                    <div class="caption">
+                        <h4><strong><%= user.name %></strong></h4>
+                        <h4>Email: <%= user.email %> </h4>
+                        <h4>Charge: <%= user.contract.charge %> </h4>
+                        <h4>Workplace: <%= user.contract.workplace %> </h4>
+                    </div>
+                    <p>
+                        <a class="btn btn-warning" href="/machines %>">Edit employee info</a>
+                    </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

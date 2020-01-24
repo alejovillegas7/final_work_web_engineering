@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
     user_image: String,
     password: String,
     provider: String,
-    provider_id: {type: String, unique: true},
+    provider_id: {type: String, default:null},
     sales: [
         {
             type: mongoose.Schema.Types.ObjectId,
