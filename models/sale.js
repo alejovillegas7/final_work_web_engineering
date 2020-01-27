@@ -1,7 +1,10 @@
 var mongoose = require("mongoose");
 
 var saleSchema = mongoose.Schema({
-    product: String,
+    product: {
+        id: String,
+        product_name: String
+    },
     buyer: String,
     seller: {
         id: {

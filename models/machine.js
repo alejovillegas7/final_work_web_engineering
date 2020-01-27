@@ -11,13 +11,7 @@ var machineSchema = new mongoose.Schema({
     seller: String,
     quantity: Number,
     image: String,
-    state: String,
-    sales: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Sale"
-        }
-    ]
+    state: String
 });
 
 

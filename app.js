@@ -17,6 +17,7 @@ var User = require("./models/user");
 var machineRoutes = require("./routes/machines");
 var authRoutes = require("./routes/auth");
 var userRoutes = require("./routes/user");
+var salesRoutes = require("./routes/sales");
 
 mongoose.connect("mongodb://localhost/confection_machines_store", { useUnifiedTopology: true, useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
@@ -45,6 +46,7 @@ app.use((req, res, next)=>{
 app.use(machineRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
+app.use(salesRoutes);
 
 app.listen(3002, ()=>{
     console.log("confection machines server runnin at port 3002");
