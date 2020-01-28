@@ -77,8 +77,8 @@ router.post("/machines", isLoggedIn, upload.fields([{name: 'image', maxCount: 1}
 
 //open the pdf Report
 router.get('/machines/generatePdf', isLoggedIn, (req, res)=>{
-    generatePDF();
-    res.redirect('/uploads/pdfs/report.pdf');
+    res.set({"Content-Type": 'application/pdf'});
+    generatePDF(res);
 });
 
 //NEW-- SHOW FORM TO CREATE A NEW MACHINE
@@ -101,7 +101,7 @@ router.get("/machines/:id", isLoggedIn, (req, res)=>{
 });
 
 //GENERATE PDF METHOD AS A PROMISE
-function generatePDF(){
+function generatePDF(res){
 //initialize a pdf document
     var doc = new pdfDocument();
     //save the pdf file in a root directory
@@ -133,6 +133,7 @@ function generatePDF(){
         });
         //Finalize PDF file
         doc.end();
+        res.redirect('/uploads/pdfs/report.pdf');
     });
 };
 
