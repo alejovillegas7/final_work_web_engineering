@@ -18,14 +18,17 @@
                 <img class="img-responsive" src="../<%= machine.image %>">
                 <div class="caption-full">
                     <h4 class="pull-right">Purchase Price: $<%= machine.purchase_price %></h4>
-                    <h4><a target="_blank" href="<%= machine.purchase_receipt %>">Purchase Receipt</a></h4>
+                    <h4><a target="_blank" href="../<%= machine.purchase_receipt %>">Purchase Receipt</a></h4>
                     <p><strong>Seller: </strong><%= machine.seller %></p>
                 </div>
             </div>
             <div class="well">
                 <div class="text-right">
                     <a class="btn btn-primary btn-lg" href="/machines">Go back to the inventory</a>
-                    <a class="btn btn-warning btn-lg" href="/machines/<%= machine._id %>/sale">Register a Sale</a>
+                    <a class="btn btn-info btn-lg" href="/machines/<%= machine._id %>/sale">Register a Sale</a>
+                    <% if(currentUser.name === machine.seller){ %>
+                        <a class="btn btn-warning btn-lg" href="/machines/<%= machine._id %>/edit">Edit info</a>
+                    <%}%>
                 </div>
             </div>
         </div>

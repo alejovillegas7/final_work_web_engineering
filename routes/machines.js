@@ -83,7 +83,7 @@ router.get('/machines/generatePdf', isLoggedIn, (req, res)=>{
 
 //NEW-- SHOW FORM TO CREATE A NEW MACHINE
 router.get("/machines/new", isLoggedIn, (req, res)=>{
-    res.render("inventory/new");
+    res.render("inventory/new", {user:req.user});
 });
 
 //SWOW-- SHOWS MORE INFO ABOUT A MACHINE
@@ -98,6 +98,48 @@ router.get("/machines/:id", isLoggedIn, (req, res)=>{
             res.render("inventory/show_machine", {machine:foundMachine});
         }
     });
+});
+
+//EDIT MAHCINE ROUTE
+router.get("/machines/:id/edit", isLoggedIn, (req, res)=>{
+    Machine.findById(req.params.id, (err, foundMachine)=>{
+        if(err){
+            return res.redirect("/machines");
+        }else{
+            if(req.user.name === foundMachine.seller){
+                return res.render("inventory/edit", {machine:foundMachine});
+            }else{
+                console.log("you don't have any permission over this Machine!");
+            }
+        }
+    });
+});
+
+//UPDATE MACHINE INFO ROUTE
+router.put("/machines/:id",isLoggedIn, upload.fields([{name: 'image', maxCount: 1},{name: 'purchase_receipt', maxCount: 1}]), (req, res)=>{
+    //find and update the correct machine
+    var today = new Date();
+    var brand = req.body.brand;
+    var state = req.body.state;
+    var model = req.body.model;
+    var location = req.body.location;
+    var purchase_price = req.body.purchase_price;
+    var purchase_receipt = req.files.purchase_receipt[0].path;
+    var image = req.files.image[0].path;
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var creation_date = new Date(date);
+    creation_date.setDate(creation_date.getDate());
+    var sale_date = req.body.sale_date;
+    var seller = req.body.seller;
+    var quantity = req.body.quantity;
+    var editedMachine = {state:state, brand:brand, quantity:quantity, image: image, model:model, location:location, purchase_price:purchase_price, creation_date:creation_date, sale_date: sale_date, seller:seller, purchase_receipt:purchase_receipt};
+    Machine.findByIdAndUpdate(req.params.id, editedMachine, (err, updatedMachine)=>{
+        if(err){
+            return res.redirect("/machines");
+        }
+        //redirect somewhere
+        res.redirect("/machines/" + req.params.id);
+    })
 });
 
 //GENERATE PDF METHOD AS A PROMISE
