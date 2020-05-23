@@ -1,0 +1,65 @@
+<%- include("../partials/header") %>
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align: center;">Edit
+                <%= user.name %>
+            </h1>
+            <div style="width: 30%; margin: 25px auto;">
+                <form action="/users/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="username" value="<%= user.username %>" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name" value="<%= user.name %>" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="age" value="<%= user.age %>" min="18" max="70">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="email" value="<%= user.email %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="charge">Worker Charge:</label>
+                        <select class="form-control" id="charge" name="charge" required>
+                                <option value="SYSTEMADMIN">System Admin</option>
+                                <option value="Seller">Seller</option>
+                                <option value="Administrator">Administrator</option>
+                                <option value="Client">Client</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="salary">Salary: </label>
+                        <input class="form-control" id="salary" type="number" name="salary" value="<%= user.contract.salary %>" min="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="start_date">Start Date: </label>
+                        <input class="form-control" id="start_date" type="date" name="start_date" value="<%= user.contract.start_date %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date">Due Date: </label>
+                        <input class="form-control" id="due_date" type="date" name="due_date" value="<%= user.contract.due_date %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="workplace">Workplace: </label>
+                        <select class="form-control" id="workplace" name="workplace" required>
+                            <option value="Medellin">Medellin</option>
+                            <option value="Bogota">Bogota</option>
+                            <option value="Cali">Cali</option>
+                            <option value="Bucaramanga">Bucaramanga</option>
+                            <option value="Cartagena">Cartagena</option>
+                            <option value="Cucuta">Cucuta</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">Profile Image:</label>
+                        <input class="form-control" id="file" type="file" name="user_image">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block">Confirm profile´s info!</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include("../partials/footer") %>

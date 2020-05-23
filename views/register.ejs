@@ -1,36 +1,65 @@
 <%- include("partials/header") %>
-<h1>THIS IS THE REGISTER FORM!</h1>
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align: center;">REGISTER FORM!</h1>
+            <div style="width: 30%; margin: 25px auto;">
+                <form action="/register" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="name" placeholder="Complete name of the worker" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="age" placeholder="Age of the worker" min="18" max="70">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="email" placeholder="Worker email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="charge">Worker Charge:</label>
+                        <select class="form-control" id="charge" name="charge" required>
+                        <option value="SYSTEMADMIN">System Admin</option>
+                        <option value="Seller">Seller</option>
+                        <option value="Administrator">Administrator</option>
+                        <option value="Client">Client</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number" name="salary" placeholder="Salary per hour" min="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="start_date">Start Date: </label>
+                        <input class="form-control" id="start_date" type="date" name="start_date" placeholder="Start Date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date">Due Date: </label>
+                        <input class="form-control" id="due_date" type="date" name="due_date" placeholder="Due Date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="workplace">Workplace: </label>
+                        <select class="form-control" id="workplace" name="workplace" required>
+                        <option value="Medellin">Medellin</option>
+                        <option value="Bogota">Bogota</option>
+                        <option value="Cali">Cali</option>
+                        <option value="Bucaramanga">Bucaramanga</option>
+                        <option value="Cartagena">Cartagena</option>
+                        <option value="Cucuta">Cucuta</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">Profile Image:</label>
+                        <input class="form-control" id="file" type="file" name="user_image">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block">Register employee!</button>
+                    </div>
 
-<form action="/register" method="POST" enctype="multipart/form-data">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="text" name="name" placeholder="Complete name of the worker" required>
-    <input type="number" name="age" placeholder="Age of the worker" min="18" max="70">
-    <input type="email" name="email" placeholder="Worker email" required>
-    <label for="charge">Worker Charge:</label>
-    <select id="charge" name="charge" required>
-        <option value="CEO">CEO</option>
-        <option value="Seller">Seller</option>
-        <option value="Administrator">Administrator</option>
-        <option value="Client">Client</option>
-    </select>
-    <input type="number" name="salary" placeholder="Salary" min="8" required>
-    <label for="start_date">Start Date: </label>
-    <input id="start_date" type="date" name="start_date" placeholder="Start Date" required>
-    <label for="due_date">Due Date: </label>
-    <input id="due_date" type="date" name="due_date" placeholder="Due Date" required>
-    <input type="text" name="workplace" placeholder="Workplace" required>
-    <label for="workplace">Workplace: </label>
-    <select id="workplace" name="workplace" required>
-        <option value="Medellin">Medellin</option>
-        <option value="Bogota">Bogota</option>
-        <option value="Cali">Cali</option>
-        <option value="Bucaramanga">Bucaramanga</option>
-        <option value="Cartagena">Cartagena</option>
-        <option value="Cucuta">Cucuta</option>
-    </select>
-    <input type="password" name="password" placeholder="Password" required>
-    <label for="file">Profile Image:</label>
-    <input id="file" type="file" name="user_image">
-    <button>Sign Up!</button>
-</form>
-<%- include("partials/footer") %>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include("partials/footer") %>

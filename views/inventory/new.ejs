@@ -1,50 +1,50 @@
 <%- include("../partials/header") %>
 
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center;">Create a new Product to sell (New Purchase)</h1>
-        <div style="width: 30%; margin: 25px auto;">
-            <form action="/machines" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    State: 
-                    <select name="state">
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align: center;">Create a new Product to sell (New Purchase)</h1>
+            <div style="width: 30%; margin: 25px auto;">
+                <form action="/machines" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        State:
+                        <select class="form-control" name="state">
                         <option value="new">New</option>
                         <option value="secondhand">Secondhand</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="brand" placeholder="Brand">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="model" placeholder="Model">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="location" placeholder="Store">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="number" min="1" name="purchase_price" placeholder="Purchase Price">
-                </div>
-                <div class="form-group">
-                    Purchase_receipt: <input class="form-control" type="file" name="purchase_receipt">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" min="1" type="number" name="quantity" placeholder="Quantity">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="seller" value="<%= user.name %>" readonly>
-                </div>
-                <div class="form-group">
-                    Purchase Date: <input class="form-control" type="date" name="sale_date" placeholder="Purchase Date">
-                </div>
-                <div class="form-group">
-                    Image: <input class="form-control" type="file" name="image">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
-                </div>
-            </form>
-            <a href="/machines">Go Back!</a>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="brand" placeholder="Brand">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="model" placeholder="Model">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="location" placeholder="Store">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number" min="1" name="purchase_price" placeholder="Purchase Price">
+                    </div>
+                    <div class="form-group">
+                        Purchase_receipt: <input class="form-control" type="file" name="purchase_receipt">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" min="1" type="number" name="quantity" placeholder="Quantity">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="seller" value="<%= user.name %>" readonly>
+                    </div>
+                    <div class="form-group">
+                        Purchase Date: <input class="form-control" type="date" name="sale_date" placeholder="Purchase Date">
+                    </div>
+                    <div class="form-group">
+                        Image: <input class="form-control" type="file" name="image">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                    </div>
+                </form>
+                <a href="/machines">Go Back!</a>
+            </div>
         </div>
     </div>
-</div>
-<%- include("../partials/footer") %>
+    <%- include("../partials/footer") %>

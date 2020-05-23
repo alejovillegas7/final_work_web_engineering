@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Confection Machines</title>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/stylesheets/main.css">
-    </head>
-    <body>
+
+<head>
+    <title>Confection Machines</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -17,20 +19,44 @@
                 <ul class="nav navbar-nav navbar-right">
                     <% if(!currentUser){ %>
                         <li><a href="/login">Login</a></li>
-                        <li><a href="/register">Sign Up</a></li>
-                    <% } else { %>
-                        <li><a href="/sales">Sales</a></li>
-                        <li><a href="/machines/new">Register a new Purchase</a></li>
-                        <li><a href="/users">Human Resources</a></li>
-                        <li><a href="/logout">Logout</a></li>
-                        <li>
-                            <a href="/users/<%=currentUser._id%>">
-                                Signed in as: <%=currentUser.name%>
-                            </a>
-                        </li>
-                    <% } %>
+                        <% } else { %>
+                            <% if(currentUser.contract.charge === "SYSTEMADMIN" || currentUser.contract.charge === "Administrator"){ %>
+                                <li><a href="/sales">Sales</a></li>
+                                <li><a href="/machines/new">Register a new Purchase</a></li>
+                                <li><a href="/users">Human Resources</a></li>
+                                <li><a href="/register">Register new employee</a></li>
+                                <li><a href="/logout">Logout</a></li>
+                                <li>
+                                    <a href="/users/<%=currentUser._id%>">
+                            Signed in as: <%=currentUser.name%>
+                        </a>
+                                </li>
+                                <% } else {%>
+                                    <li><a href="/sales">Sales</a></li>
+                                    <li><a href="/machines/new">Register a new Purchase</a></li>
+                                    <li><a href="/users">Human Resources</a></li>
+                                    <li><a href="/logout">Logout</a></li>
+                                    <li>
+                                        <a href="/users/<%=currentUser._id%>">
+                            Signed in as: <%=currentUser.name%>
+                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% } %>
                 </ul>
             </div>
         </div>
     </nav>
-    
+
+    <div class="container">
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+            <%}%>
+                <% if(success && success.length > 0){ %>
+                    <div class="alert alert-success" role="alert">
+                        <%= success %>
+                    </div>
+                    <%}%>
+    </div>
