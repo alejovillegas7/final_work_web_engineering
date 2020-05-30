@@ -89,22 +89,23 @@ router.get("/users/:id/edit", isLoggedIn, (req, res) => {
 
 //UPDATE USER ROUTE
 router.put("/users/:id", upload.single('user_image'), (req, res) => {
+    req.body.form = req.sanitize(req.body.form);
     //find and update the correct user
     if (req.file == undefined) {
         req.flash("error", "Please fill all the fields ");
         return res.redirect("back");
     }
     var newUser = {
-        username: req.body.username,
-        name: req.body.name,
-        age: req.body.age,
-        email: req.body.email,
+        username: req.body.form.username,
+        name: req.body.form.name,
+        age: req.body.form.age,
+        email: req.body.form.email,
         contract: {
-            charge: req.body.charge,
-            salary: req.body.salary,
-            start_date: req.body.start_date,
-            due_date: req.body.due_date,
-            workplace: req.body.workplace
+            charge: req.body.form.charge,
+            salary: req.body.form.salary,
+            start_date: req.body.form.start_date,
+            due_date: req.body.form.due_date,
+            workplace: req.body.form.workplace
         },
         user_image: req.file.path
     };

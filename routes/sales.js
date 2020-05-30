@@ -114,7 +114,7 @@ router.get("/sales/send-email", isLoggedIn, (req, res) => {
                     text: 'You have a new report of the sales made in the store on the last week',
                     attachments: [{
                         filename: 'report_sales.pdf',
-                        path: 'C:/Users/alejandro.lv/Documents/college/ingenieria_web/final_work/final_work_web_heroku/uploads/pdfs/report_sales.pdf',
+                        path: `${path.dirname(__dirname)}/uploads/pdfs/report_sales.pdf`,
                         contentType: 'application/pdf'
                     }],
                 };
@@ -134,6 +134,7 @@ router.get("/sales/send-email", isLoggedIn, (req, res) => {
 
 //SHOW THE FORM TO GENERATE A NEW SALE
 router.get("/machines/:id/sale", isLoggedIn, (req, res) => {
+    req.body.form = req.sanitize(req.body.form);
     //find the machine with provided ID
     Machine.findById(req.params.id, (err, foundMachine) => {
         if (err) {

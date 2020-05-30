@@ -8,6 +8,7 @@ var LocalStrategy = require("passport-local");
 var methodOverride = require("method-override");
 const dotenv = require('dotenv');
 dotenv.config();
+var expressSanitizer = require('express-sanitizer');
 //var TwitterStrategy = require("passport-twitter");
 //var FacebookStrategy = require("passport-facebook");
 var multer = require("multer");
@@ -26,14 +27,15 @@ var salesRoutes = require("./routes/sales");
 
 //MONGODB CONNECTIONS - LOCAL AND MONGO ATLAS FOR DEPLOY
 
-mongoose.connect(process.env.DATABASEURL, { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true }).then(() => console.log("connected to localDB"));
-/*mongoose.connect("mongodb+srv://alejovillegas7:alejo5983812@machinestorecluster-cvmcp.mongodb.net/test?retryWrites=true&w=majority", { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }).then(() => {
+//mongoose.connect(process.env.DATABASEURL, { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true }).then(() => console.log("connected to localDB"));
+mongoose.connect("mongodb+srv://alejovillegas7:alejo5983812@machinestorecluster-cvmcp.mongodb.net/test?retryWrites=true&w=majority", { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }).then(() => {
     console.log("connected to DB!");
 }).catch(err => {
     console.log("ERROR ", err.message);
-});*/
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressSanitizer());
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use('/uploads', express.static('uploads'));
@@ -66,6 +68,6 @@ app.use(userRoutes);
 app.use(salesRoutes);
 
 //process.env.PORT
-app.listen(3002, () => {
+app.listen(3002, "0.0.0.0", () => {
     console.log("confection machines server runnin at port 3002");
 });

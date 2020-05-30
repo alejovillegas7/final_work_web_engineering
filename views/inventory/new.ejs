@@ -13,31 +13,31 @@
                     </select>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="brand" placeholder="Brand">
+                        <input class="form-control" type="text" name="form[brand]" placeholder="Brand">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="model" placeholder="Model">
+                        <input class="form-control" type="text" name="form[model]" placeholder="Model">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="location" placeholder="Store">
+                        <input class="form-control" type="text" name="form[location]" placeholder="Store">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="number" min="1" name="purchase_price" placeholder="Purchase Price">
+                        <input class="form-control" type="number" min="1" name="form[purchase_price]" placeholder="Purchase Price">
                     </div>
                     <div class="form-group">
-                        Purchase_receipt: <input class="form-control" type="file" name="purchase_receipt">
+                        Purchase_receipt: <input class="form-control" type="file" name="form[purchase_receipt]">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" min="1" type="number" name="quantity" placeholder="Quantity">
+                        <input class="form-control" min="1" type="number" name="form[quantity]" placeholder="Quantity">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="seller" value="<%= user.name %>" readonly>
+                        <input class="form-control" type="text" name="form[seller]" value="<%= user.name %form[>" readonly>
                     </div>
                     <div class="form-group">
-                        Purchase Date: <input class="form-control" type="date" name="sale_date" placeholder="Purchase Date">
+                        Purchase Date: <input class="form-control" type="date" name="form[sale_date]" placeholder="Purchase Date">
                     </div>
                     <div class="form-group">
-                        Image: <input class="form-control" type="file" name="image">
+                        Image: <input class="form-control" type="file" name="form[image]">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-lg btn-primary btn-block">Submit!</button>

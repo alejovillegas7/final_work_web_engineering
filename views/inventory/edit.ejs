@@ -1,50 +1,52 @@
 <%- include("../partials/header") %>
 
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center;">EDIT the Product <%= machine.brand + " " + machine.model %></h1>
-        <div style="width: 30%; margin: 25px auto;">
-            <form action="/machines/<%= machine._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    State: 
-                    <select name="state">
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align: center;">EDIT the Product
+                <%= machine.brand + " " + machine.model %>
+            </h1>
+            <div style="width: 30%; margin: 25px auto;">
+                <form action="/machines/<%= machine._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        State:
+                        <select name="state">
                         <option value="new">New</option>
                         <option value="secondhand">Secondhand</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="brand" value="<%= machine.brand %>">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="model" value="<%= machine.model %>">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="location" value="<%= machine.location %>">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="number" min="1" name="purchase_price" value="<%= machine.purchase_price %>">
-                </div>
-                <div class="form-group">
-                    Purchase_receipt: <input class="form-control" type="file" name="purchase_receipt">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" min="1" type="number" name="quantity" value="<%= machine.quantity %>">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="seller" value="<%= machine.seller %>" readonly>
-                </div>
-                <div class="form-group">
-                    Purchase Date: <input class="form-control" type="date" name="sale_date" value="<%= machine.sale_date %>">
-                </div>
-                <div class="form-group">
-                    Image: <input class="form-control" type="file" name="image">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Save!</button>
-                </div>
-            </form>
-            <a href="/machines">Go to Inventory without saving!</a>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="form[brand]" value="<%= machine.brand %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="form[model]" value="<%= machine.model %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="form[location]" value="<%= machine.location %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number" min="1" name="form[purchase_price]" value="<%= machine.purchase_price %>">
+                    </div>
+                    <div class="form-group">
+                        Purchase_receipt: <input class="form-control" type="file" name="form[purchase_receipt]">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" min="1" type="number" name="form[quantity]" value="<%= machine.quantity %>">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="form[seller]" value="<%= machine.seller %>" readonly>
+                    </div>
+                    <div class="form-group">
+                        Purchase Date: <input class="form-control" type="date" name="form[sale_date]" value="<%= machine.sale_date %>">
+                    </div>
+                    <div class="form-group">
+                        Image: <input class="form-control" type="file" name="form[image]">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block">Save!</button>
+                    </div>
+                </form>
+                <a href="/machines">Go to Inventory without saving!</a>
+            </div>
         </div>
     </div>
-</div>
-<%- include("../partials/footer") %>
+    <%- include("../partials/footer") %>

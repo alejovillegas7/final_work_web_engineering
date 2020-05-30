@@ -7,6 +7,7 @@ var multer = require("multer");
 var pdfDocument = require('pdfkit');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
+var path = require("path");
 require('dotenv').config();
 
 //transport to send email
@@ -59,25 +60,26 @@ router.get("/machines", (req, res) => {
 
 //CREATE ROUTE OR THE INVENTORY--ADD NEW MACHINE
 router.post("/machines", isLoggedIn, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'purchase_receipt', maxCount: 1 }]), (req, res) => {
-    if (req.file == undefined) {
+    req.body.form = req.sanitize(req.body.form);
+    if (req.files == undefined) {
         req.flash("error", "Please fill all the fields");
         return res.redirect("back");
     }
     //get data from form and add to machines array
     var today = new Date();
-    var brand = req.body.brand;
-    var state = req.body.state;
-    var model = req.body.model;
-    var location = req.body.location;
-    var purchase_price = req.body.purchase_price;
+    var brand = req.body.form.brand;
+    var state = req.body.form.state;
+    var model = req.body.form.model;
+    var location = req.body.form.location;
+    var purchase_price = req.body.form.purchase_price;
     var purchase_receipt = req.files.purchase_receipt[0].path;
     var image = req.files.image[0].path;
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var creation_date = new Date(date);
     creation_date.setDate(creation_date.getDate());
-    var sale_date = req.body.sale_date;
-    var seller = req.body.seller;
-    var quantity = req.body.quantity;
+    var sale_date = req.body.form.sale_date;
+    var seller = req.body.form.seller;
+    var quantity = req.body.form.quantity;
     var newMachine = { state: state, brand: brand, quantity: quantity, image: image, model: model, location: location, purchase_price: purchase_price, creation_date: creation_date, sale_date: sale_date, seller: seller, purchase_receipt: purchase_receipt };
     // Create a new machine and save to DB
     Machine.create(newMachine, (err, machine) => {
@@ -124,7 +126,7 @@ router.get("/machines/send-email", isLoggedIn, (req, res) => {
                     text: 'You have a new report of the machines in the store',
                     attachments: [{
                         filename: 'report.pdf',
-                        path: 'C:/Users/alejandro.lv/Documents/college/ingenieria_web/final_work/final_work_web_heroku/uploads/pdfs/report.pdf',
+                        path: `${path.dirname(__dirname)}/uploads/pdfs/report.pdf`,
                         contentType: 'application/pdf'
                     }],
                 };
@@ -173,25 +175,26 @@ router.get("/machines/:id/edit", isLoggedIn, (req, res) => {
 
 //UPDATE MACHINE INFO ROUTE
 router.put("/machines/:id", isLoggedIn, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'purchase_receipt', maxCount: 1 }]), (req, res) => {
+    req.body.form = req.sanitize(req.body.form);
     if (req.file == undefined) {
         req.flash("error", "Please fill all the fields");
         return res.redirect("back");
     }
     //find and update the correct machine
     var today = new Date();
-    var brand = req.body.brand;
-    var state = req.body.state;
-    var model = req.body.model;
-    var location = req.body.location;
-    var purchase_price = req.body.purchase_price;
+    var brand = req.body.form.brand;
+    var state = req.body.form.state;
+    var model = req.body.form.model;
+    var location = req.body.form.location;
+    var purchase_price = req.body.form.purchase_price;
     var purchase_receipt = req.files.purchase_receipt[0].path;
     var image = req.files.image[0].path;
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var creation_date = new Date(date);
     creation_date.setDate(creation_date.getDate());
-    var sale_date = req.body.sale_date;
-    var seller = req.body.seller;
-    var quantity = req.body.quantity;
+    var sale_date = req.body.form.sale_date;
+    var seller = req.body.form.seller;
+    var quantity = req.body.form.quantity;
     var editedMachine = { state: state, brand: brand, quantity: quantity, image: image, model: model, location: location, purchase_price: purchase_price, creation_date: creation_date, sale_date: sale_date, seller: seller, purchase_receipt: purchase_receipt };
     Machine.findByIdAndUpdate(req.params.id, editedMachine, (err, updatedMachine) => {
         if (err) {

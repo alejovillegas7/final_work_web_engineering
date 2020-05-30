@@ -1,0 +1,10 @@
+var permissionDeny = "You don't have permission to do that, please contact your administrator";
+var fillInputs = "Please fill all the fields";
+var successUserCreated = "New user created";
+var loggedOut = "logged you out!"
+var needToBeLoggedIn = "You need to be logged in to do that";
+var permissionDeny1 = "you dont have permissions to do that!";
+var noAdmin = "your current workplace doesnt have any administrator";
+var messageSend = "message sent to your administrator";
+var noPermissionOverMachine = "You don't have any permission over this Machine!";
+var somethingHappened = "Something happened, please try again";
