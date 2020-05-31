@@ -28,7 +28,7 @@ var salesRoutes = require("./routes/sales");
 //MONGODB CONNECTIONS - LOCAL AND MONGO ATLAS FOR DEPLOY
 
 //mongoose.connect(process.env.DATABASEURL, { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true }).then(() => console.log("connected to localDB"));
-mongoose.connect("mongodb+srv://alejovillegas7:alejo5983812@machinestorecluster-cvmcp.mongodb.net/test?retryWrites=true&w=majority", { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }).then(() => {
+mongoose.connect(`mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPASSWORD}@machinestorecluster-cvmcp.mongodb.net/test?retryWrites=true&w=majority`, { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }).then(() => {
     console.log("connected to DB!");
 }).catch(err => {
     console.log("ERROR ", err.message);
